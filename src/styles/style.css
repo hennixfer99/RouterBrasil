@@ -41,7 +41,7 @@ header {
     font-family: var(--main-font);
 }
 
-header span {
+header .header-container {
     width: 65%;
     display: flex;
     justify-content: space-between;
@@ -53,13 +53,13 @@ header span {
     box-sizing: border-box;
 }
 
-header nav {
+.nav-links {
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-header span > a {
+header .header-container > a {
     display: flex;
     align-items: center;
     height: 100%;
@@ -99,6 +99,10 @@ header button {
     border: none;
     padding: 10px 20px;
     border-radius: 16px;
+}
+.contato:hover {
+    background-color: var(--primary-color);
+    filter: brightness(0.9);
 }
 .menu-btn {
     display: none;
@@ -162,12 +166,12 @@ main section {
     line-height: 1.4;
     width: 100%;
 }
-#aboutUs > span > div:first-child h2 {
+#aboutUs > .container > div:first-child h2 {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
 }
-#aboutUs > span > div:first-child p {
+#aboutUs > .container > div:first-child p {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
 }
@@ -176,7 +180,7 @@ main section {
     justify-content: space-between;
     flex-wrap: wrap;
 }
-main span {
+main .container {
     width: 65%;
     max-width: 65%;
     display: flex;
@@ -352,8 +356,8 @@ main textarea {
 }
 
 #aboutUs > div:first-child p {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
     line-height: 1.6;
     color: var(--secondary-color);
 }
@@ -396,8 +400,8 @@ main textarea {
     object-fit: contain; /* Mantém a proporção da imagem sem distorção */
 }
 
-.card h2 {
-    font-size: 1.5rem;
+.card h3 {
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
     font-weight: bold;
     text-align: center;
 }
@@ -412,11 +416,11 @@ main textarea {
     background-color: var(--background-color);
 }
 
-#fabricantes span {
+#fabricantes .container {
     align-items: left;
 }
 
-#fabricantes h2 {
+#fabricantes h2:first-child {
     font-size: clamp(1.8rem, 3vw, 2.5rem);
     font-weight: bold;
     margin-bottom: 1.5rem;
@@ -424,8 +428,17 @@ main textarea {
     color: var(--secondary-color);
 }
 
+#fabricantes h2:nth-of-type(2) {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    color: var(--secondary-color);
+}
+
 #fabricantes p {
     font-size: 1.2rem;
+    margin-bottom: 1.5rem;
 }
 
 #fabricantes div {
@@ -476,6 +489,14 @@ main textarea {
     object-fit: contain;
 }
 
+/* Ajustes específicos para logos que precisam ser maiores */
+#fabricantes img[src*="cisco"],
+#fabricantes img[src*="fortinet"],
+#fabricantes img[src*="juniper"] {
+    max-width: 110px;
+    max-height: 110px;
+}
+
 #fabricantes li {
     width: 100%;
 }
@@ -486,7 +507,7 @@ footer {
     background-color: var(--background-color);
 }
 
-footer span {
+footer .container {
     width: 65%;
     margin: 0 auto;
     display: flex;
@@ -522,7 +543,7 @@ footer li:hover {
     box-sizing: border-box;
 }
 
-#contato span {
+#contato .container {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
@@ -568,7 +589,7 @@ footer li:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#contato > span > div {
+#contato > .container > div {
     width: 45%;
     background-color: white;
     border-radius: 12px;
@@ -577,7 +598,7 @@ footer li:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#contato > span > div h2 {
+#contato > .container > div h2 {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
@@ -774,9 +795,9 @@ footer ul {
 }
 
 @media (max-width: 1000px) {
-    main span,
-    header span,
-    footer span {
+    main .container,
+    header .header-container,
+    footer .container {
         width: 90%;
         max-width: 90%;
     }
@@ -789,7 +810,7 @@ footer ul {
         max-width: 100px;
         height: auto;
     }
-    header span {
+    header .header-container {
         flex-direction: row-reverse;
     }
     .menu-btn {
@@ -867,7 +888,7 @@ footer ul {
         padding: 0 1rem;
     }
 
-    #contato span {
+    #contato .container {
         flex-direction: column;
         gap: 2rem;
         width: 90%;
@@ -875,7 +896,7 @@ footer ul {
     }
 
     #contato form,
-    #contato > span > div {
+    #contato > .container > div {
         width: 100%;
         max-width: 100%;
     }

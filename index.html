@@ -10,14 +10,14 @@
     </head>
     <body>
         <header>
-            <span>
+            <div class="header-container">
                 <a href="#home">
                     <img
                         src="./src/imgs/logo.png"
                         alt="nossa logo da Router Brasil Serviços e Vendas de Roteadores"
                     />
                 </a>
-                <nav>
+                <div class="nav-links">
                     <ul class="menu-desktop">
                         <li>
                             <a href="#home"><p>Home</p></a>
@@ -32,7 +32,12 @@
                             <a href="#fabricantes"><p>Fabricantes</p></a>
                         </li>
                         <li>
-                            <a href="#contato"><button>Contato</button></a>
+                            <button
+                                class="contato"
+                                onclick="location.href='#contato'"
+                            >
+                                Contato
+                            </button>
                         </li>
                         <!-- <li>
                             <a href="" targer="_blank"><button>Pedidos</button></a>
@@ -59,15 +64,20 @@
                             <a href="#fabricantes"><p>Fabricantes</p></a>
                         </li>
                         <li>
-                            <a href="#contato"><button>Contato</button></a>
+                            <button
+                                class="contato"
+                                onclick="location.href='#contato'"
+                            >
+                                Contato
+                            </button>
                         </li>
                     </ul>
-                </nav>
-            </span>
+                </div>
+            </div>
         </header>
         <main>
             <section id="home">
-                <span>
+                <div class="container">
                     <div>
                         <h2>POTENCIALIZE SUA EMPRESA</h2>
                         <p>
@@ -81,10 +91,10 @@
                     >
                         Entre em Contato
                     </button>
-                </span>
+                </div>
             </section>
             <section id="aboutUs">
-                <span>
+                <div class="container">
                     <div>
                         <h2>QUEM SOMOS</h2>
                         <p>
@@ -105,7 +115,7 @@
                                     src="./src/imgs/target.png"
                                     alt="Nossa missão"
                                 />
-                                <h2>MISSÃO</h2>
+                                <h3>MISSÃO</h3>
                             </div>
                             <p>
                                 Levar aos novos clientes soluções sob medida que
@@ -122,7 +132,7 @@
                                     alt="Nossa visão"
                                     class="vision-img"
                                 />
-                                <h2>VISÃO</h2>
+                                <h3>VISÃO</h3>
                             </div>
                             <p>
                                 Leve sua empresa a ser mais lucrativa e seus
@@ -136,7 +146,7 @@
                                     src="./src/imgs/diamond.png"
                                     alt="Valores"
                                 />
-                                <h2>VALORES</h2>
+                                <h3>VALORES</h3>
                             </div>
                             <p>
                                 Atendimento técnico realizado no mais alto
@@ -145,10 +155,10 @@
                             </p>
                         </div>
                     </div>
-                </span>
+                </div>
             </section>
             <section id="products">
-                <span>
+                <div class="container">
                     <div class="product">
                         <img
                             src="./src/imgs/product1.png"
@@ -216,10 +226,10 @@
                             </p>
                         </div>
                     </div>
-                </span>
+                </div>
             </section>
             <section id="fabricantes">
-                <span>
+                <div class="container">
                     <h2>FABRICANTES</h2>
                     <div>
                         <ul>
@@ -271,12 +281,15 @@
                             />
                         </li>
                     </ul>
-                </span>
+                </div>
             </section>
 
             <section id="contato">
-                <span>
-                    <form method="POST" action="https://formsubmit.co/contato@routerbrasil.com.br">
+                <div class="container">
+                    <form
+                        method="POST"
+                        action="https://formsubmit.co/contato@routerbrasil.com.br"
+                    >
                         <input
                             type="text"
                             placeholder="Insira seu nome..."
@@ -319,11 +332,11 @@
                             Sábado: 09:00 - 13:00
                         </p>
                     </div>
-                </span>
+                </div>
             </section>
         </main>
         <footer>
-            <span>
+            <div class="container">
                 <ul>
                     <li><a href="#" id="termsLink">Termos de Uso</a></li>
                     <li>
@@ -339,7 +352,7 @@
                         alt="nossa logo da Router Brasil Serviços e Vendas de Roteadores"
                     />
                 </a>
-            </span>
+            </div>
         </footer>
 
         <!-- Modal de Termos de Uso -->
