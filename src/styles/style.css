@@ -597,6 +597,16 @@ footer li:hover {
     box-shadow: 0 0 0 2px rgba(227, 207, 31, 0.1);
 }
 
+.contact-form input.error,
+.contact-form textarea.error {
+    border: 1px solid #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.08);
+}
+
+.contact-form label.error {
+    color: #e74c3c;
+}
+
 .contact-form .form-actions {
     margin-top: auto; /* push button to the bottom so form fills height */
 }
