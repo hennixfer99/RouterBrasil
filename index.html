@@ -318,7 +318,6 @@
                             <input
                                 type="tel"
                                 placeholder="(99) 99999-9999"
-                                pattern="[0-9]{2}[0-9]{5}[0-9]{4}"
                                 id="phone"
                                 name="phone"
                                 required
@@ -506,79 +505,83 @@
         <script>
             const btn = document.getElementById("menuBtn");
             const menu = document.getElementById("menu");
-            btn.onclick = function () {
-                if (menu.hasAttribute("hidden")) {
-                    menu.removeAttribute("hidden");
-                    menu.classList.add("show");
-                    btn.classList.add("active");
-                } else {
-                    menu.setAttribute("hidden", "");
-                    menu.classList.remove("show");
-                    btn.classList.remove("active");
-                }
-            };
+            if (btn && menu) {
+                btn.addEventListener("click", () => {
+                    if (menu.hasAttribute("hidden")) {
+                        menu.removeAttribute("hidden");
+                        menu.classList.add("show");
+                        btn.classList.add("active");
+                    } else {
+                        menu.setAttribute("hidden", "");
+                        menu.classList.remove("show");
+                        btn.classList.remove("active");
+                    }
+                });
+            }
 
-            // Navegação suave
             document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
                 anchor.addEventListener("click", function (e) {
                     e.preventDefault();
-                    const offset = 80; // Ajuste esse valor para controlar o quanto de espaço queremos do topo
+                    const offset = 80;
                     const targetId = this.getAttribute("href");
                     const targetElement = document.querySelector(targetId);
 
                     if (targetElement) {
-                        const targetPosition =
+                        const elementPosition =
                             targetElement.getBoundingClientRect().top +
-                            window.pageYOffset -
-                            offset;
-
+                            window.pageYOffset;
+                        const offsetPosition = elementPosition - offset;
                         window.scrollTo({
-                            top: targetPosition,
+                            top: offsetPosition,
                             behavior: "smooth",
                         });
+                    }
 
-                        // Se estiver no menu mobile, fecha o menu após clicar
-                        if (!menu.hasAttribute("hidden")) {
-                            menu.setAttribute("hidden", "");
-                            menu.classList.remove("show");
-                            btn.textContent = "TESTE";
-                        }
+                    if (menu && !menu.hasAttribute("hidden")) {
+                        menu.setAttribute("hidden", "");
+                        menu.classList.remove("show");
+                        if (btn) btn.classList.remove("active");
                     }
                 });
             });
 
-            // Controle dos Modais
-            const termsModal = document.getElementById("termsModal");
-            const privacyModal = document.getElementById("privacyModal");
-            const termsLink = document.getElementById("termsLink");
-            const privacyLink = document.getElementById("privacyLink");
-
-            // Funções para abrir e fechar modais
+            // Modal 
             function openModal(modal) {
+                if (!modal) return;
                 modal.style.display = "flex";
                 document.body.style.overflow = "hidden";
             }
 
             function closeModal(modal) {
+                if (!modal) return;
                 modal.style.display = "none";
                 document.body.style.overflow = "auto";
             }
 
-            // Event listeners para os links
-            termsLink.addEventListener("click", (e) => {
-                e.preventDefault();
-                openModal(termsModal);
-            });
+            const termsLink = document.getElementById("termsLink");
+            const privacyLink = document.getElementById("privacyLink");
+            const termsModal = document.getElementById("termsModal");
+            const privacyModal = document.getElementById("privacyModal");
 
-            privacyLink.addEventListener("click", (e) => {
-                e.preventDefault();
-                openModal(privacyModal);
-            });
+            if (termsLink && termsModal) {
+                termsLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    openModal(termsModal);
+                });
+            }
+
+            if (privacyLink && privacyModal) {
+                privacyLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    openModal(privacyModal);
+                });
+            }
 
             // Event listeners para os botões de fechar
             document.querySelectorAll(".modal-close").forEach((button) => {
                 button.addEventListener("click", () => {
-                    closeModal(button.closest(".modal-overlay"));
+                    const overlay = button.closest(".modal-overlay");
+                    if (overlay) closeModal(overlay);
                 });
             });
 
@@ -613,6 +616,7 @@
                     "input[required], textarea[required]"
                 );
                 const phone = document.getElementById("phone");
+                const nameField = document.getElementById("name");
 
                 function formatPhone(digits) {
                     if (!digits) return "";
@@ -629,6 +633,14 @@
                         "-" +
                         digits.slice(7, 11)
                     );
+                }
+                function sanitizeName(str) {
+                    if (!str) return "";
+                    try {
+                        return str.replace(/[^\p{L}\s'-]/gu, "");
+                    } catch (err) {
+                        return str.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s'-]/g, "");
+                    }
                 }
 
                 if (phone) {
@@ -652,6 +664,38 @@
                             phone.classList.add("error");
                         } else {
                             phone.classList.remove("error");
+                        }
+                    });
+                }
+
+                if (nameField) {
+                    nameField.addEventListener("input", () => {
+                        const original = nameField.value;
+                        const cleaned = original.replace(/\d/g, "");
+                        if (cleaned !== original) {
+                            const pos =
+                                nameField.selectionStart -
+                                (original.length - cleaned.length);
+                            nameField.value = cleaned;
+                            nameField.setSelectionRange(pos, pos);
+                        }
+
+                        if (cleaned.trim().length === 0) {
+                            nameField.classList.add("error");
+                            const lbl = form.querySelector("label[for='name']");
+                            if (lbl) lbl.classList.add("error");
+                        } else {
+                            nameField.classList.remove("error");
+                            const lbl = form.querySelector("label[for='name']");
+                            if (lbl) lbl.classList.remove("error");
+                        }
+                    });
+
+                    nameField.addEventListener("blur", () => {
+                        if (nameField.value.trim().length === 0) {
+                            nameField.classList.add("error");
+                            const lbl = form.querySelector("label[for='name']");
+                            if (lbl) lbl.classList.add("error");
                         }
                     });
                 }
@@ -683,6 +727,19 @@
                 form.addEventListener("submit", (e) => {
                     let valid = true;
                     requiredFields.forEach((field) => {
+                        // special name validation: must not be empty after removing digits
+                        if (field.id === "name") {
+                            const cleaned = sanitizeName(field.value).trim();
+                            if (cleaned.length === 0) {
+                                field.classList.add("error");
+                                const lbl = form.querySelector(
+                                    "label[for='" + field.id + "']"
+                                );
+                                if (lbl) lbl.classList.add("error");
+                                valid = false;
+                                return;
+                            }
+                        }
                         // special phone validation: must have 11 digits
                         if (field.id === "phone") {
                             const digits = field.value.replace(/\D/g, "");
